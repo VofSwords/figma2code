@@ -5,11 +5,12 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "generate": "GITHUB_PAGES=true NUXT_APP_BASE_URL=/figma2code/ nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "deploy": "gh-pages -f --nojekyll -v '**/!(*.output/public/**)' -d .output/public"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.62",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.9.0",
     "eslint": "^9.33.0",
+    "gh-pages": "^6.3.0",
     "typescript": "^5.9.2"
   }
 }
