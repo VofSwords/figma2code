@@ -1,25 +1,72 @@
+<script setup lang="ts">
+const solutionsQuery = useAsyncData(() =>
+  queryCollection('solution').select('title', 'path', 'id').all(),
+)
+
+const resultsQuery = useAsyncData(() =>
+  queryCollection('result').select('title', 'path', 'id').all(),
+)
+
+const [{ data: solutionsData }, { data: resultsData }] = await Promise.all([
+  solutionsQuery,
+  resultsQuery,
+])
+
+if (!solutionsData.value || !resultsData.value) {
+  throw createError({
+    statusCode: 500,
+    statusMessage: 'Data loading failed',
+  })
+}
+
+const solutions = solutionsData as Ref<typeof solutionsData.value>
+const results = resultsData as Ref<typeof resultsData.value>
+
+const resultsBySolutionPathMap = computed(() => {
+  const map = new Map<string, typeof results.value>()
+
+  if (results.value) {
+    for (const result of results.value) {
+      const solutionPath = getSolutionPathByResultPath(result.path)
+      const list = map.get(solutionPath)
+
+      if (!list) {
+        map.set(solutionPath, [result])
+      } else {
+        list.push(result)
+      }
+    }
+  }
+
+  return map
+})
+
+const navigation = computed(() => {
+  if (!solutions.value || !results.value) {
+    return null
+  }
+
+  return solutions.value.map((solution) => {
+    return {
+      ...solution,
+      results: resultsBySolutionPathMap.value.get(solution.path),
+    }
+  })
+})
+</script>
+
 <template>
-  <div class="flex flex-col items-center justify-center gap-4 h-screen">
-    <h1 class="font-bold text-2xl text-(--ui-primary)">
-      Nuxt UI - Starter
-    </h1>
-
-    <div class="flex items-center gap-2">
-      <UButton
-        label="Documentation"
-        icon="i-lucide-square-play"
-        to="https://ui.nuxt.com/getting-started/installation/nuxt"
-        target="_blank"
-      />
-
-      <UButton
-        label="GitHub"
-        color="neutral"
-        variant="outline"
-        icon="i-simple-icons-github"
-        to="https://github.com/nuxt/ui"
-        target="_blank"
-      />
-    </div>
-  </div>
+  <UContainer class="grow shrink-0 relative py-4 sm:py-6">
+    <ProseH1>Figma2Code Solutions</ProseH1>
+    <ProseUl>
+      <ProseLi v-for="solution in navigation" :key="solution.path">
+        <ProseA :href="solution.path">{{ solution.title }}</ProseA>
+        <ProseUl v-if="solution.results && solution.results.length > 0">
+          <ProseLi v-for="result in solution.results" :key="result.path">
+            <ProseA :href="result.path">{{ result.title }}</ProseA>
+          </ProseLi>
+        </ProseUl>
+      </ProseLi>
+    </ProseUl>
+  </UContainer>
 </template>
