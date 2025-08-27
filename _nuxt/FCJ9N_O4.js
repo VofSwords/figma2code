@@ -1,0 +1,1 @@
+import{r as n,a as e}from"./Bya79cCG.js";const o=t=>"/solutions/"+e(t),l=t=>"/trials/"+e(t),i=t=>{const a=n(t),s=a.lastIndexOf("/");return a.substring(0,s)},h=t=>{const a=n(t),s=a.lastIndexOf("/");return a.substring(s+1)};export{h as a,o as b,l as c,i as g};

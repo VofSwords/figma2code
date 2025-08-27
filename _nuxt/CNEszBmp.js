@@ -1,0 +1,1 @@
+import{U as n,i as c,c as r,o as p,B as i,D as u,V as s}from"./BiNtJmWF.js";const m={base:"my-1.5 ps-1.5 leading-7 [&>ul]:my-0"},_={__name:"ProseLi",props:{class:{type:null,required:!1}},setup(e){const a=e,o=n(),l=c(()=>s({extend:s(m),...o.ui?.prose?.li||{}}));return(t,d)=>(p(),r("li",{class:u(l.value({class:a.class}))},[i(t.$slots,"default")],2))}};export{_ as default};

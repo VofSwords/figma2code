@@ -1,0 +1,1 @@
+import{U as l,i as n,c as r,o as p,B as u,D as d,V as s}from"./BiNtJmWF.js";const i={base:""},_={__name:"ProseTbody",props:{class:{type:null,required:!1}},setup(e){const o=e,a=l(),t=n(()=>s({extend:s(i),...a.ui?.prose?.tbody||{}}));return(c,m)=>(p(),r("tbody",{class:d(t.value({class:o.class}))},[u(c.$slots,"default")],2))}};export{_ as default};
